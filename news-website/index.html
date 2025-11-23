@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Fofoquinhas</title>
+</head>
+
+<body>
+    <!-- trabalho de Mariana Sônego, Yasmim Cecíclio e Amanda Coutinho -->
+
+    
+    <h1>Notícias IFSP do Segundo ano TII.</h1>
+    <h3>Muitas fofocas, graças a Deus.</h3>
+
+
+    <nav class="bloco 1 navbar bg-light ">
+        <div class="container-fluid mt-5">
+            <a class="botao navbar-brand mb-0 h3 menu cadastrar " href="#">Cadastrar</a>
+        </div>
+    </nav>
+
+    <main>
+    
+    </main>
+
+
+    <h3>Desenvolvido por MAY.</h3>
+    <p class="p"><strong>©2022 MAY Innovations, LLC. All rights reserved.</strong></p>
+
+
+
+    <script>
+        function criarMenu(dados) {
+            let pai = document.querySelector("nav");
+            for (let i = 0; i < dados.length; i++) {
+                let nomeCategoria = dados[i].nome;
+                let id = dados[i].id;
+                
+                let div = document.createElement("div");
+                div.setAttribute("class", "container-fluid mt-5");
+                let a = document.createElement("a");~
+                a.setAttribute('href' , '#');
+                a.setAttribute("class", "botao navbar-brand  mb-0 h3 menu");
+                a.setAttribute("id", id);
+
+                a.append(nomeCategoria);
+                a.addEventListener("click", colocar);
+                div.appendChild(a);
+                pai.appendChild(div);
+
+            }
+            
+            
+        }
+
+
+        function menu(d) {
+            document.querySelector("main").innerText = ""
+            fetch("https://ifsp.ddns.net/webservices/noticiario/categorias")
+                .then(resposta => {
+                    if (!resposta.ok) {
+                        throw new Error("Houve algum erro");
+                    }
+                    return resposta.json();
+                })
+                .then(dados => {
+                    
+                    let elemento = document.querySelector("main")
+                    let h4 = document.createElement("h4");
+                    let select = document.createElement("select");
+                    select.setAttribute("class", "form-selector ms-3");
+                    h4.append("Cadastrar:");
+                    let div = document.createElement("div");
+                    div.appendChild(h4)
+                    elemento.append(div)
+                    let option = document.createElement("option");
+                    option.setAttribute("value", "Selecionar");
+                    option.append("Selecionar...");
+                    select.append(option);
+
+                    for (let i = 0; i < dados.length; i++) {
+                        let nomeCategoria = dados[i].nome;
+                        let idcate = dados[i].id;
+                        let option2 = document.createElement("option");
+                        option2.setAttribute("value", idcate);
+                        option2.append(nomeCategoria);
+                        select.appendChild(option2);
+
+                    }
+
+
+                    elemento.append(select);
+                    let div2 = document.createElement("div");
+                    let label = document.createElement("label");
+                    label.setAttribute("class", "h4 t");
+                    label.append("Título");
+                    let input = document.createElement("input");
+                    input.setAttribute("class", "form-control noticia");
+                    input.setAttribute("id", "input1");
+                    div2.appendChild(label);
+                    div2.append(input);
+                    elemento.append(div2);
+
+
+                    let div3 = document.createElement("div");
+                    let label2 = document.createElement("label");
+                    label2.setAttribute("class", "h4 t");
+                    label2.append("Subtítulo");
+                    let input2 = document.createElement("input");
+                    input2.setAttribute("class", "form-control noticia");
+                    input2.setAttribute("id", "input2");
+                    div3.appendChild(label2);
+                    div3.append(input2);
+                    elemento.append(div3);
+                   
+
+                    let div4 = document.createElement("div");
+                    let label3 = document.createElement("label");
+                    label3.setAttribute("class", "h4 t");
+                    label3.append("Digite algo");
+                    let text = document.createElement("textarea");
+                    text.setAttribute("class", "form-control noticia");
+                    text.setAttribute("id", "text");
+                    div4.appendChild(label3);
+                    div4.append(text);
+                    elemento.append(div4);
+
+                    let botao = document.createElement("button");
+                    botao.append("Cadastrar");
+                    botao.setAttribute("class", "btn btn-outline-success mari")
+                    elemento.append(botao);
+                    botao.addEventListener("click", verifica);
+                    let b = document.createElement("button");
+                    b.append("Resetar");
+                    b.setAttribute("class", "btn btn-outline-danger mari")
+                    elemento.append(b);
+                    b.addEventListener("click", resetar);
+
+                })
+                .catch(erro => {
+                    console.error("error encontrado: ", erro);
+                })
+
+
+
+        }
+
+
+
+        function add(dados) {
+            let params = new URLSearchParams();
+            for (let chave in dados) {
+                params.append(chave, dados[chave]);
+            }
+            let query = params.toString();
+            let options = {
+                method: "POST",
+                body: query,
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                }
+            }
+            fetch("https://ifsp.ddns.net/webservices/noticiario/noticias",options)
+            .then(resposta => {
+                    if (resposta.ok) {
+                        alert("Informações enviadas com sucesso");
+                        console.log("Informações enviadas com sucesso!");
+                    } else{
+                        alert("Informações não enviadas!");
+                        console.log("Informações não enviadas!");
+                        
+                    }
+                    return resposta.json();
+                })
+            }
+
+
+
+
+        function verifica (d){
+
+
+            let elem = document.querySelector("#input1").value;
+            
+            let elem2 = document.querySelector("#input2").value;
+            
+            let elem3 = document.querySelector("#text").value;
+          
+           
+            
+            let select = document.querySelector('select');
+            let s_op = select.options[select.selectedIndex];
+            let cate = s_op.value;
+            
+            let data = horario();
+            
+
+            let dados = {
+               
+                "id": 0,
+                "titulo": elem,
+                "subtitulo": elem2,
+                "idCategoria": cate,
+                "conteudo": elem3,
+                "data": data.toString,
+                "editavel": 1
+
+            }
+
+            if (dados.idCategoria != 'Selecionar' && dados.titulo != '' && dados.subtitulo != '' && dados.conteudo != ''){
+                resetar();
+                add(dados);
+
+            }else{
+                alert("Informações não preenchidas corretamente.")
+            }
+
+        }
+    
+        function resetar(e){
+            
+            if (e != null) {
+                e.preventDefault()
+            };
+
+            document.querySelector('select').value = "Selecionar";
+            document.querySelector('#input1').value = '';
+            document.querySelector('#input2').value = '';
+            document.querySelector('#text').value = '';
+
+        }
+
+        function colocar(e){
+            e.preventDefault();
+
+            document.querySelector("main").innerText = "";
+            let elem = e.target;
+            let nome = elem.innerText;
+            let id = elem.id;
+            let main = document.querySelector("main");
+            let div = document.createElement("div");
+            let h1 = document.createElement("h1");
+            h1.append(nome);
+            div.append(h1);
+            main.append(div)
+   
+            fetch("https://ifsp.ddns.net/webservices/noticiario/noticias")
+                .then(resposta => {
+                    if (!resposta.ok) {
+                        throw new Error("Houve algum erro");
+                    }
+                    return resposta.json();
+                })
+                .then(dados => {
+                    let flag = false;
+                    for (let n in dados){
+                        if(dados[n].idCategoria == id){
+                            flag = true;
+                            let idn = dados[n].id;
+                            titulo = dados[n].titulo;
+                            sub = dados[n].subtitulo;
+                            data = dados[n].data;
+                            conteudo = dados[n].conteudo;
+                            let h2 = document.createElement("h2");
+                            h2.setAttribute("class", "noticia");
+                            h2.append(titulo);
+                            let h5 = document.createElement("h5");
+                            h5.setAttribute("class", "noticia");
+                            h5.append(sub);
+                            let p = document.createElement("p");
+                            p.setAttribute("class", "noticia");
+                            p.append(conteudo);
+                            let footer = document.createElement("footer");
+                            footer.setAttribute("class", "noticia");
+                            footer.append(data);
+                            let div2 = document.createElement("div")
+                            div2.append(h2);
+                            div2.append(h5);
+                            div2.append(p);
+                            div2.append(footer);
+                            div.append(div2);
+
+                            if(dados[n].editavel == 1){
+                                let botao = document.createElement("button");
+                                botao.append("Deletar");
+                                botao.setAttribute("class", "btn btn-outline-danger mari");
+                                div.append(botao);
+                                main.append(div)
+                                botao.addEventListener("click", function(){
+                                    let options =  {
+                                        method: 'DELETE',
+                                        headers: {
+                                            "Content-Type": "application/x-www-form-urlencoded"
+                                        }
+                                    }
+                                    fetch(`https://ifsp.ddns.net/webservices/noticiario/noticias/${idn}` , options)
+
+                                        .then(response => {
+                                            if (response.ok) {
+                                                console.log("Objeto deletado com sucesso.");
+                                                alert('Notícia deletada!')
+                                            } else {
+                                                console.error("Erro ao deletar objeto.");
+                                                alert("Erro ao deletar!");
+                                            }
+                                        })
+                                        .catch(error => {
+                                            console.error("Erro ao deletar objeto:", error);
+                                        });
+
+                                    for (dado of dados) {
+
+                                        if (dado.id == idn) {
+                                            let div = document.getElementById(`${idn}`);
+                                            div2.innerHTML = '';
+                                            botao.remove()
+
+                                        }
+
+                                    }
+
+                                })
+                            }
+                        }
+                    }
+                
+                               
+                    if(flag == false){
+                        let p = document.createElement("p");
+                        p.append("Nenhuma notícia cadastrada!");
+                        div.append(p);
+                        main.append(div);
+
+                    }
+                })
+                .catch(erro => {
+                    console.error("error encontrado: ", erro);
+                })
+        }
+
+
+        function horario(){
+            var date = new Date();
+            var tempo = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()} - ${date.getHours()}:${date.getMinutes()}`;
+            return tempo;
+        }
+
+
+
+        function cadastrar(d) {
+
+            fetch("https://ifsp.ddns.net/webservices/noticiario/categorias")
+                .then(resposta => {
+                    if (!resposta.ok) {
+                        throw new Error("Houve algum erro");
+                    }
+                    return resposta.json();
+                })
+                .then(dados => {
+                    criarMenu(dados);
+                })
+                .catch(erro => {
+                    console.error("error encontrado: ", erro);
+                })
+
+
+        }
+
+        function cor(d) {
+
+            let elemento = d.target;
+            let b = elemento.style.color = "#f9f8fc";
+            elemento.style.backgroundColor = "#a00505";
+
+
+        }
+
+
+
+
+        let botaoa = document.querySelectorAll(".menu")
+        for (let botao of botaoa) {
+            botao.addEventListener("click", menu)
+        }
+
+
+
+        cadastrar();
+    </script>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
+</body>
+
+</html>

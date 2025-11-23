@@ -1,0 +1,104 @@
+body::-webkit-scrollbar {
+    width: 14px;               /* width of the entire scrollbar */
+}
+  
+
+body::-webkit-scrollbar-track {
+    background: #f9f8fc;        /* color of the tracking area */
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #a00505;    /* color of the scroll thumb */
+    border-radius: 10px;       /* roundness of the scroll thumb */
+    border: 3px solid #a00505;  /* creates padding around scroll thumb */
+}
+
+.noticia{
+    margin-left: 10px;
+    width: 1500px;
+}
+
+.t{
+    margin-left: 10px;
+}
+
+.mari{
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+@font-face {
+    font-family: Barrio;
+    src: url(../fontes/Retrochips.otf)
+  }
+
+@font-face {
+    font-family: Barro;
+    src: url(../fontes/Magic\ Retro.ttf)
+}
+body{
+    background-color: #f9f8fc;
+}
+
+h1{
+    text-align: center;
+    color: #a00505;
+    font-family: Barrio;
+    margin-top: 60px;
+}
+
+h3{
+    text-align: center;
+    color: #a00505;
+    font-family: Barrio;
+    margin-top: 10px;
+}
+
+h4{
+    text-align: center;
+    color: #a00505;
+    font-family: Barrio;
+    margin-top: 10px;
+    
+}
+
+.p{
+    text-align: center;
+    color: #a00505;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.botao{
+    border-color:#a00505;
+    background-color: #f9f8fc;
+    width: 400px;
+    margin-top: 1px;
+    border-radius: 10px;
+    
+}
+
+#maior{
+    border-radius: 10px;
+    width: 800px;
+    margin-bottom: 50px;
+    /* object-position:center ; */
+    /* margin-bottom: 200px;
+    margin-top: 90px; */
+}
+
+.bloco1, .bloco2 {
+    display: inline-block;
+    
+    width: 50%; /* definir a largura para que cada elemento ocupe metade da largura total da tela */
+    padding: 10px; /* adicionar um preenchimento para separar o conteúdo da borda */
+  }
+
+a { color: inherit; }
+ 
+ /* mouse over */
+ a:hover {
+     color:#a00505;
+ }
+ 
